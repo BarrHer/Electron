@@ -38,7 +38,7 @@
                         //document.write(element.id_adh)
                         html += '<tr>';
                         html += '<td>';
-                        console.log(element)
+                        //console.log(element)
                         html += element.id_adh;
                         html += '</td>';
                         html += '<td>';
@@ -66,11 +66,10 @@
                         html += element.tel;
                         html += '</td>';
                         html += '<td>';
-                        html += '<button type="button" onclick="window.location='+location+'" class="btn btn-primary">Modification</button> ';
+                        html += '<button type="button" onclick="window.location='+location+'; modifId('+element.id_adh+');" class="btn btn-primary">Modification</button> ';
                         html += '<button type="button" class="btn btn-danger">X</button>';
                         html += '</td>';
                         html += '</tr>';
-                        
                         //document.write(element[result[element].name])
                     });
                     
@@ -83,11 +82,13 @@
             
             
         </script>
-
+         
         <script>
-        // You can also require other files to run in this process
-        require('./renderer.js')
+        function modifId(id_adh) {
+            localStorage.setItem('id_adh', id_adh)
+        }
         </script>
+
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
