@@ -1,20 +1,12 @@
 <script src="header.js"></script>
         <div class="px-5 pt-5">
             <div id="test"></div>
+            <button type="button" onclick="refresh();" class="btn btn-info">Recharger</button>
         </div>
         
-    
+        <script language="javascript" type="text/javascript" src="connexion.js"></script>
         <script language="javascript" type="text/javascript">
-            var test;
-            
-            var mysql = require('mysql');
 
-            var con = mysql.createConnection({
-            host: "localhost",
-            user: "ad_nazza",
-            password: "pwnazza",
-            database: "nazza"
-            });
 
             con.connect(function(err) {
                 if (err) throw err;
@@ -67,26 +59,37 @@
                         html += '</td>';
                         html += '<td>';
                         html += '<button type="button" onclick="window.location='+location+'; modifId('+element.id_adh+');" class="btn btn-primary">Modification</button> ';
-                        html += '<button type="button" class="btn btn-danger">X</button>';
+                        html += '<button type="button" onclick="suppression('+element.id_adh+');" class="btn btn-danger">X</button>';
                         html += '</td>';
                         html += '</tr>';
-                        //document.write(element[result[element].name])
                     });
-                    
                     
                     html += '</table>';
                     document.getElementById('test').innerHTML = html
                 });
             });
             
-            
-            
         </script>
          
         <script>
-        function modifId(id_adh) {
-            localStorage.setItem('id_adh', id_adh)
-        }
+
+            function modifId(id_adh) {
+                localStorage.setItem('id_adh', id_adh)
+            }
+
+            function suppression(id_adh){
+                if (confirm('Êtes-vous sûr de supprimer l\'utilisateur '+id_adh+' ?')) {
+                    con.query("DELETE FROM adherant WHERE id_adh = ?", [id_adh], function (err, result, fields) {
+                    if (err) throw err;
+                        window.location.reload(true);
+                    });
+                }
+                
+            }
+            function refresh() {
+                window.location.reload(true);
+            }
+
         </script>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>

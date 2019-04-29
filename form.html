@@ -1,31 +1,40 @@
 <script src="header.js"></script>
 
-
 <div class="container mt-5 py-4 rounded shadow-lg">
-    <form id="form" method="post">
+    <form id="form">
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="nom">Nom</label>
-                <input type="text" class="form-control" id="nom" name="nom" placeholder="Nom">
+                <input type="text" class="form-control" id="nom" name="nom" placeholder="Nom" required>
             </div>
             <div class="form-group col-md-6">
-                <label for="prenom">Prenom</label>
-                <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Prenom">
+                <label for="prenom">Prénom</label>
+                <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Prenom" required>
             </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
                 <label for="pseudo">Pseudo</label>
-                <input type="text" class="form-control" id="pseudo" name="pseudo" placeholder="Pseudo">
+                <input type="text" class="form-control" id="pseudo" name="pseudo" placeholder="Pseudo" required>
             </div>
             <div class="form-group col-md-6">
                 <label for="numtel">Numéro de Téléphone</label>
-                <input type="text" class="form-control" id="numtel" name="numtel" placeholder="0692 12 34 56" pattern=".{10,10}">
+                <input type="text" class="form-control" id="numtel" name="numtel" placeholder="0692 12 34 56" pattern=".{10,10}" required>
             </div>
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email" required>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="status">Status</label>
+                <input type="text" class="form-control" id="status" name="status" placeholder="Status" placeholder="0 pour adherant ou 1 pour admin" pattern=".{1,1}" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="verification">Vérification</label>
+                <input type="text" class="form-control" id="verification" name="verification" placeholder="0 pour non vérifié ou 1 pour vérifié" pattern=".{1,1}" required>
+            </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
@@ -42,35 +51,21 @@
 </div>
 
 <button type="button" onclick='window.location="index.html"' class="btn btn-primary ml-5">retour</button>
-<script>
 
-
-    function myFunction() {
-      document.getElementById("myForm").submit();
-    }
-    </script>
+<script language="javascript" type="text/javascript" src="connexion.js"></script>
 <script language="javascript" type="text/javascript">
-    var test;
-    var nom = document.getElementById('nom').value
-    var mysql = require('mysql');
-
-    var con = mysql.createConnection({
-    host: "localhost",
-    user: "ad_nazza",
-    password: "pwnazza",
-    database: "nazza"
-    });
 
     con.connect(function(err) {
         if (err) throw err;
         con.query("SELECT * FROM adherant WHERE id_adh=?",[localStorage.getItem('id_adh')], function (err, result, fields) {
             if (err) throw err;
-            console.log(result[0]['tel'])
             document.getElementById('nom').value = result[0]['nom']
             document.getElementById('prenom').value = result[0]['prenom']
             document.getElementById('pseudo').value = result[0]['pseudo']
             document.getElementById('email').value = result[0]['email']
             document.getElementById('numtel').value = result[0]['tel']
+            document.getElementById('status').value = result[0]['status']
+            document.getElementById('verification').value = result[0]['verif']
         });
     });
     
@@ -80,11 +75,17 @@
         pseudo = document.getElementById('pseudo').value
         email = document.getElementById('email').value
         numtel = document.getElementById('numtel').value
+        status = document.getElementById('status').value
+        verif = document.getElementById('verification').value
         id_adh = localStorage.getItem('id_adh')
-        alert(nom + prenom + pseudo + email)
-        con.query("UPDATE adherant SET nom=?, prenom=?, pseudo=?,email=?,tel=? WHERE id_adh=?",[nom,prenom,pseudo,email,id_adh], function (err, result2, fields2) {
 
+        con.query("UPDATE adherant SET nom=?, prenom=?, pseudo=?,email=?,tel=?,verif=?,status=? WHERE id_adh=?",[nom,prenom,pseudo,email,numtel,verif,status,id_adh], function (err, result2, fields2) {
+            if (err == null){
+                alert('Utilisateur modifié')
+            }
         });
+
+        
     }
     
 </script>
