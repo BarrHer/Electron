@@ -1,0 +1,44 @@
+<script src="header.js"></script>
+
+<div class="container mt-5 py-4 rounded shadow-lg">
+    <div class="form-group">
+      <label for="pseudologin">Pseudo</label>
+      <input type="text" class="form-control" name="pseudologin" id="login" placeholder="Pseudo" required>
+    </div>
+    <div class="form-group">
+      <label for="mdplogin">Mot de passe</label>
+      <input type="password" class="form-control" name="mdplogin" id="mdplogin" placeholder="Mot de passe" required>
+    </div>
+    <div class="text-center">
+      <button type="submit" name="btnConnexion" onclick="connexion();" class="btn btn-primary px-5">Connexion</button>
+    </div>
+
+
+</div>
+
+<script language="javascript" type="text/javascript" src="connexion.js"></script>
+
+<script>
+    function connexion() {
+        var pseudo = document.getElementById('login').value
+        var mdp = document.getElementById('mdplogin').value
+
+        con.connect(function(err) {
+                if (err) throw err;
+                con.query("SELECT * FROM electron WHERE pseudo_admin=? AND mdp_admin=?",[pseudo, mdp], function (err, result, fields) {
+                    if (err) throw err;
+
+                    if (result.length == 0) {
+                        alert('erreur')
+                        document.location.reload(true)
+                    } else {
+                        document.location = 'index.html'
+                    }
+                    
+                    
+                });
+            });
+    }
+
+    
+</script>
