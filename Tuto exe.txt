@@ -1,0 +1,5 @@
+Dans le fichier où se trouve le main.js etc..
+ npm install electron-packager --save-dev
+ npm install electron-packager -g
+ npm install electron-rebuild
+ electron-packager ./  "nazza" --platform=win32 --arch=x64

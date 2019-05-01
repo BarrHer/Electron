@@ -1,0 +1,99 @@
+<script src="header.js"></script>
+        <div class="px-5 pt-5">
+            <div id="test"></div>
+            <button type="button" onclick="refresh();" class="btn btn-info">Recharger</button>
+        </div>
+        
+        <script language="javascript" type="text/javascript" src="connexion.js"></script>
+        <script language="javascript" type="text/javascript">
+
+
+            con.connect(function(err) {
+                if (err) throw err;
+                con.query("SELECT * FROM adherant", function (err, result, fields) {
+                    if (err) throw err;
+                    var html = '';
+                    var location = "'form.html'";
+
+                    html += '<table class="table table-striped text-center">';
+                    html += '<tr>';
+                    
+                    fields.forEach(function(element2) {
+                        html += '<th>';
+                        html += element2.name
+                        html += '</th>';
+                    });
+                    html += '<th> Action </th>';
+                    html += '</tr>';
+                    
+                    result.forEach(function(element) {
+                        //document.write(element.id_adh)
+                        html += '<tr>';
+                        html += '<td>';
+                        //console.log(element)
+                        html += element.id_adh;
+                        html += '</td>';
+                        html += '<td>';
+                        html += element.nom;
+                        html += '</td>';
+                        html += '<td>';
+                        html += element.prenom;
+                        html += '</td>';
+                        html += '<td>';
+                        html += element.pseudo;
+                        html += '</td>';
+                        html += '<td>';
+                        html += element.mdp;
+                        html += '</td>';
+                        html += '<td>';
+                        html += element.status;
+                        html += '</td>';
+                        html += '<td>';
+                        html += element.email;
+                        html += '</td>';
+                        html += '<td>';
+                        html += element.verif;
+                        html += '</td>';
+                        html += '<td>';
+                        html += element.tel;
+                        html += '</td>';
+                        html += '<td>';
+                        html += '<button type="button" onclick="window.location='+location+'; modifId('+element.id_adh+');" class="btn btn-primary">Modification</button> ';
+                        html += '<button type="button" onclick="suppression('+element.id_adh+');" class="btn btn-danger">X</button>';
+                        html += '</td>';
+                        html += '</tr>';
+                    });
+                    
+                    html += '</table>';
+                    document.getElementById('test').innerHTML = html
+                });
+            });
+            
+        </script>
+         
+        <script>
+
+            function modifId(id_adh) {
+                localStorage.setItem('id_adh', id_adh)
+            }
+
+            function suppression(id_adh){
+                if (confirm('Êtes-vous sûr de supprimer l\'utilisateur '+id_adh+' ?')) {
+                    con.query("DELETE FROM adherant WHERE id_adh = ?", [id_adh], function (err, result, fields) {
+                    if (err) throw err;
+                        window.location.reload(true);
+                    });
+                }
+                
+            }
+            function refresh() {
+                window.location.reload(true);
+            }
+
+        </script>
+
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
