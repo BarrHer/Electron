@@ -1,0 +1,79 @@
+<script src="header.js"></script>
+
+<div class="container mt-5 py-4 rounded shadow-lg">
+    <form id="editForm">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="nom">Nom</label>
+                <input type="text" class="form-control" id="nom" name="nom" placeholder="Nom">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="prenom">Prenom</label>
+                <input type="text" class="form-control" id="prenom" name="prenom" placeholder="Prenom">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="pseudo">Pseudo</label>
+                <input type="text" class="form-control" id="pseudo" name="pseudo" placeholder="Pseudo">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="numtel">Numéro de Téléphone</label>
+                <input type="text" class="form-control" id="numtel" name="numtel" placeholder="0692 12 34 56" pattern=".{10,10}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="mdp">Mot de passe</label>
+                <input type="password" class="form-control" id="mdp" name="mdp" placeholder="Mot de passe">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="cmdp">Confirmation mot de passe</label>
+                <input type="password" class="form-control" id="cmdp" name="cmdp" placeholder="Mot de passe">
+            </div>
+            </div>
+        <button type="button" onclick="edit()" name="btnModification" class="btn btn-primary">Modifier</button>
+    </form>
+</div>
+
+
+<script language="javascript" type="text/javascript" src="cnx.js"></script>
+<script>
+con.connect(function(err) {
+    if (err) throw err;
+    con.query("SELECT * FROM adherant WHERE id_adh=?",[localStorage.getItem('id_adh')], function (err, result, fields) {
+        if (err) throw err;
+        document.getElementById('nom').value = result[0]['nom']
+        document.getElementById('prenom').value = result[0]['prenom']
+        document.getElementById('pseudo').value = result[0]['pseudo']
+        document.getElementById('email').value = result[0]['email']
+        document.getElementById('numtel').value = result[0]['tel']
+        //document.getElementById('status').value = result[0]['status']
+        //document.getElementById('verification').value = result[0]['verif']
+    });
+});
+
+function edit() {
+    nom = document.getElementById('nom').value
+    prenom = document.getElementById('prenom').value
+    pseudo = document.getElementById('pseudo').value
+    email = document.getElementById('email').value
+    tel = document.getElementById('numtel').value
+    id = localStorage.getItem('id_adh')
+
+    alert(nom+prenom+pseudo+email+tel+id)
+    //alert("UPDATE adherant SET nom="+nom+", prenom?, pseudo=?, email=?, tel=? WHERE id_adh=?")
+    con.query("UPDATE adherant SET nom=?, prenom=?, pseudo=?, email=?, tel=? WHERE id_adh=?",[nom,prenom,pseudo,email,tel,id], function (err, result, fields) {
+        if (err) throw err;
+        if (err == null){alert("oui"); }
+    });
+    
+
+}
+</script>
+
+<button type="button" onclick='window.location="index.html"' class="btn btn-primary ml-5">retour</button>

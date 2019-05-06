@@ -1,0 +1,130 @@
+<script src="header.js"></script>
+        <div class="px-5 pt-5">
+            <div id="test"></div>
+            <!--
+            <div id="myModal" class="modal fade" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirmation</h5>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Do you want to save changes to this document before closing?</p>
+                            <p class="text-secondary"><small>If you don't save, your changes will be lost.</small></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+        </div>-->
+        
+        <script language="javascript" type="text/javascript" src="cnx.js"></script>
+        <script language="javascript" type="text/javascript">
+
+        
+        
+
+            con.connect(function(err) {
+                if (err) throw err;
+                con.query("SELECT * FROM adherant", function (err, result, fields) {
+                    if (err) throw err;
+                    var html = '';
+                    var location = "'form.html'";
+
+                    html += '<table class="table table-striped text-center">';
+                    html += '<tr>';
+                    
+                    fields.forEach(function(element2) {
+                        html += '<th>';
+                        html += element2.name
+                        html += '</th>';
+                    });
+                    html += '<th> Action </th>';
+                    html += '</tr>';
+                    
+                    result.forEach(function(element) {
+                        //document.write(element.id_adh)
+                        html += '<tr>';
+                        html += '<td>';
+                        console.log(element)
+                        html += element.id_adh;
+                        html += '</td>';
+                        html += '<td>';
+                        html += element.nom;
+                        html += '</td>';
+                        html += '<td>';
+                        html += element.prenom;
+                        html += '</td>';
+                        html += '<td>';
+                        html += element.pseudo;
+                        html += '</td>';
+                        html += '<td>';
+                        html += element.mdp;
+                        html += '</td>';
+                        html += '<td>';
+                        html += element.status;
+                        html += '</td>';
+                        html += '<td>';
+                        html += element.email;
+                        html += '</td>';
+                        html += '<td>';
+                        html += element.verif;
+                        html += '</td>';
+                        html += '<td>';
+                        html += element.tel;
+                        html += '</td>';
+                        html += '<td>';
+                        html += '<button type="button" onclick="window.location='+location+' ; modifID('+element.id_adh+')" class="btn btn-primary">Modification</button> ';
+                        html += '<button type="button" onclick="suppr('+element.id_adh+')" class="btn btn-danger">X</button>';
+                        html += '</td>';
+                        html += '</tr>';
+                        
+                        //document.write(element[result[element].name])
+                    });
+                    
+                    
+                    html += '</table>';
+                    document.getElementById('test').innerHTML = html
+                });
+            });
+            
+            
+            
+        </script>
+        
+        <script>
+        
+        function modifID(id_adh) {
+                //localStorage.removeItem('id_adh');
+                localStorage.setItem('id_adh', id_adh);
+            
+        }
+
+        function suppr(id_adh){
+
+            
+            //$("#myModal").modal('show');
+            if (confirm('Êtes-vous sûr de supprimer l\'utilisateur '+id_adh+' ?')) {
+                con.query("DELETE FROM adherant WHERE id_adh = ?", [id_adh], function (err, result, fields) {
+                if (err) throw err;
+                    window.location.reload(true);
+                });
+            }
+            
+        }
+        </script>
+
+
+
+        <script>
+        // You can also require other files to run in this process
+        require('./renderer.js')
+        </script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    </body>
+</html>
