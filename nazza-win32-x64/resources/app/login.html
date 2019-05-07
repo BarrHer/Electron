@@ -29,10 +29,11 @@
                     if (err) throw err;
 
                     if (result.length == 0) {
-                        alert('erreur')
-                        document.location.reload(true)
+                      alert('erreur')
+                      document.location.reload(true)
                     } else {
-                        document.location = 'index.html'
+                      localStorage.setItem('conn', 0)
+                      document.location = 'index.html'
                     }
                     
                     

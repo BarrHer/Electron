@@ -1,4 +1,10 @@
 <script src="header.js"></script>
+<script>
+    if (localStorage.getItem('conn') != 1){
+        alert('Connexion établie');
+        localStorage.setItem('conn', 1)
+    }
+</script>
         <div class="px-5 pt-5">
             <div id="test"></div>
             <button type="button" onclick="refresh();" class="btn btn-info">Recharger</button>
@@ -79,6 +85,12 @@
 
             function suppression(id_adh){
                 if (confirm('Êtes-vous sûr de supprimer l\'utilisateur '+id_adh+' ?')) {
+                    con.query("DELETE FROM propose WHERE id_adh_adherant = ?", [id_adh], function (err, result, fields) {
+                    if (err) throw err;
+                    });
+                    con.query("DELETE FROM est_passage WHERE id_adh_adherant = ?", [id_adh], function (err, result, fields) {
+                    if (err) throw err;
+                    });
                     con.query("DELETE FROM adherant WHERE id_adh = ?", [id_adh], function (err, result, fields) {
                     if (err) throw err;
                         window.location.reload(true);
