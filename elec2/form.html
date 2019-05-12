@@ -1,5 +1,5 @@
 <script src="header.js"></script>
-
+<h2 id="adh" class="text-center" style="padding-top: 15px;"></h2>
 <div class="container mt-5 py-4 rounded shadow-lg">
     <form id="editForm">
         <div class="form-row">
@@ -22,9 +22,18 @@
                 <input type="text" class="form-control" id="numtel" name="numtel" placeholder="0692 12 34 56" pattern=".{10,10}">
             </div>
         </div>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+        <div class="form-row">
+            <div class="form-group col-md-9">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+            </div>
+            <div class="form-group col-md-3">
+                <label for="verif">Actif</label>
+                <select id="verif" name="verif" class="form-control">
+                    <option value="0">Non Vérifié</option>
+                    <option value="1">Vérifié</option>
+                </select>
+            </div>
         </div>
         <div class="form-row">
             <div class="form-group col-md-6">
@@ -35,7 +44,7 @@
                 <label for="cmdp">Confirmation mot de passe</label>
                 <input type="password" class="form-control" id="cmdp" name="cmdp" placeholder="Mot de passe">
             </div>
-            </div>
+        </div>
         <button type="button" onclick="edit()" name="btnModification" class="btn btn-primary">Modifier</button>
     </form>
 </div>
@@ -53,7 +62,8 @@ con.connect(function(err) {
         document.getElementById('email').value = result[0]['email']
         document.getElementById('numtel').value = result[0]['tel']
         //document.getElementById('status').value = result[0]['status']
-        //document.getElementById('verification').value = result[0]['verif']
+        document.getElementById('verif').value = result[0]['verif']
+        document.getElementById('adh').innerHTML = result[0]['prenom']+" "+result[0]['nom']
     });
 });
 
@@ -63,11 +73,12 @@ function edit() {
     pseudo = document.getElementById('pseudo').value
     email = document.getElementById('email').value
     tel = document.getElementById('numtel').value
+    verif = document.getElementById('verif').value
     id = localStorage.getItem('id_adh')
 
     alert(nom+prenom+pseudo+email+tel+id)
     //alert("UPDATE adherant SET nom="+nom+", prenom?, pseudo=?, email=?, tel=? WHERE id_adh=?")
-    con.query("UPDATE adherant SET nom=?, prenom=?, pseudo=?, email=?, tel=? WHERE id_adh=?",[nom,prenom,pseudo,email,tel,id], function (err, result, fields) {
+    con.query("UPDATE adherant SET nom=?, prenom=?, pseudo=?, email=?, tel=?, verif=? WHERE id_adh=?",[nom,prenom,pseudo,email,tel,verif,id], function (err, result, fields) {
         if (err) throw err;
         if (err == null){alert("oui"); }
     });
