@@ -112,10 +112,24 @@
             
             //$("#myModal").modal('show');
             if (confirm('Êtes-vous sûr de supprimer l\'utilisateur '+id_adh+' ?')) {
+
+                con.query("DELETE FROM est_passage WHERE id_adh_Adherant = ?", [id_adh], function (err, result, fields) {
+                if (err) throw err;
+                    //window.location.reload(true);
+                });
+
+                con.query("DELETE FROM propose WHERE id_adh_Adherant = ?", [id_adh], function (err, result, fields) {
+                if (err) throw err;
+                    //window.location.reload(true);
+                });
+
                 con.query("DELETE FROM adherant WHERE id_adh = ?", [id_adh], function (err, result, fields) {
                 if (err) throw err;
                     window.location.reload(true);
                 });
+
+
+
             }
             
         }
