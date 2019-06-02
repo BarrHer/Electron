@@ -25,6 +25,7 @@ git clone https://github.com/electron/electron-quick-start
 cd electron-quick-start
 # Install dependencies
 npm install
+npm install mysql
 # Run the app
 npm start
 ```
