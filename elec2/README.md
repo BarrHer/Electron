@@ -21,5 +21,5 @@ $ npm start <br>
 / ou <br>
 Version executable, <br>
 $ electron-packager . electron-nazza --overwrite --asar --platform=linux --arch=x64 --prune=false --out=executable <br>
-Et executer le fichier du nom "electron-nazza-linux-x64"
+Et executer le fichier du nom "electron-nazza" dans "electron-nazza-linux-x64" du dossier "executable"
 
