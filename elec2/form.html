@@ -76,11 +76,11 @@ function edit() {
     verif = document.getElementById('verif').value
     id = localStorage.getItem('id_adh')
 
-    alert(nom+prenom+pseudo+email+tel+id)
+    alert("L'utilisateur "+nom+" "+prenom+" a été modifié")
     //alert("UPDATE adherant SET nom="+nom+", prenom?, pseudo=?, email=?, tel=? WHERE id_adh=?")
     con.query("UPDATE adherant SET nom=?, prenom=?, pseudo=?, email=?, tel=?, verif=? WHERE id_adh=?",[nom,prenom,pseudo,email,tel,verif,id], function (err, result, fields) {
         if (err) throw err;
-        if (err == null){alert("oui"); }
+        //if (err == null){alert("oui"); }
     });
     
 
