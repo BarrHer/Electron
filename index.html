@@ -1,18 +1,19 @@
 <script src="header.js"></script>
 <script>
     if (localStorage.getItem('conn') != 1){
-        alert('Connexion établie');
+        alert('Connexion &eacutetablie');
         localStorage.setItem('conn', 1)
     }
+    console.log(process.platform)
 </script>
         <div class="px-5 pt-5">
             <div id="test"></div>
             <button type="button" onclick="refresh();" class="btn btn-info">Recharger</button>
+            <button type="button" onclick="quit(process.platform);" class="btn btn-info">Quitter</button>
         </div>
-        
+
         <script language="javascript" type="text/javascript" src="connexion.js"></script>
         <script language="javascript" type="text/javascript">
-
 
             con.connect(function(err) {
                 if (err) throw err;
@@ -27,18 +28,38 @@
                     fields.forEach(function(element2) {
                         html += '<th>';
                         html += element2.name
+                        if (element2.name == 'id_adh'){
+                            html += '<span class="badge badge-primary badge-pill">Nombre de trajet cr&eacute&eacute</span><span class="badge badge-danger badge-pill">Nombre de trajet rejoint</span>'
+                        }
                         html += '</th>';
                     });
                     html += '<th> Action </th>';
                     html += '</tr>';
-                    
+
                     result.forEach(function(element) {
+
+                        con.query("SELECT count(*) as nbPropose FROM propose WHERE id_adh_Adherant = ?",[element.id_adh], function (err1, result1, fields1) {
+                            if (err1) throw err1;
+                            //console.log(result1[0].nbPropose)
+                            //document.getElementById(element.id_adh+element.prenom).innerHTML = result1[0].nbPropose
+                            localStorage.setItem(element.id_adh+element.pseudo, result1[0].nbPropose)
+                        });
+
+                        con.query("SELECT count(*) as nbPassage FROM est_passage WHERE id_adh_Adherant = ?",[element.id_adh], function (err2, result2, fields2) {
+                            if (err2) throw err2;
+                            //console.log(result2[0].nbPassage)
+                            //document.getElementById(element.id_adh+element.pseudo+1).innerHTML = result2[0].nbPassage
+                            localStorage.setItem(element.id_adh+element.pseudo+1,result2[0].nbPassage)
+                        });
+                        
                         //document.write(element.id_adh)
                         html += '<tr>';
                         html += '<td>';
                         //console.log(element)
-                        html += element.id_adh;
-                        html += '</td>';
+                        html += element.id_adh+" ";
+                        html += '<span class="badge badge-primary badge-pill">'+localStorage.getItem(element.id_adh+element.pseudo)+'</span>'+" ";
+                        html += '<span class="badge badge-danger badge-pill">'+localStorage.getItem(element.id_adh+element.pseudo+1)+'</span></td>';
+                        console.log(localStorage.getItem(element.id_adh+element.pseudo))
                         html += '<td>';
                         html += element.nom;
                         html += '</td>';
@@ -73,6 +94,7 @@
                     html += '</table>';
                     document.getElementById('test').innerHTML = html
                 });
+            
             });
             
         </script>
@@ -100,6 +122,19 @@
             }
             function refresh() {
                 window.location.reload(true);
+            }
+
+            function quit(platform) {
+                if (platform == "win32") {
+                    const remote = require('electron').remote // chargement de l'api remote 
+                    var window = remote.getCurrentWindow() // on récupère la fenetre courante 
+                    window.close() // on ferme la fenetre 
+                }
+                else if (platform == 'darwin') {
+                    const remote = require('electron').remote
+                    let w = remote.getCurrentWindow()
+                    w.close()
+                }       
             }
 
         </script>
